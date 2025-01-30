@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        <title>
+            {% block title %}
+            {% endBlock %}
+        </title>
+        {% endBlock %}
+    </head>
+    <body>
+        <nav>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{%url 'contacts' %}">Contact</a></li>
+            <!-- <li><a href="{%url 'profile' %}">profile</a></li> -->
+        </nav>
+        {% block content %}
+        {% endBlock %}
+        <footer>
+            Footer here
+        </footer>
+    </body>
+</html>
