@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- "{{" and "}}" are used to print out the values of variables in templates --> 
+	<p>The value of x is {{x}}</p>
+    {% if y > 50 %}
+        <p>The value of y is {{y}}</p>
+    {% endif %}
+
+    {% if notY < 50 %}
+        <p>The value of z is {{notY}}</p>
+    {% endif %}
+{% endblock %}

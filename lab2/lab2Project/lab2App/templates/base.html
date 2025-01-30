@@ -1,0 +1,61 @@
+<html>
+	<head>
+    <title>My webpage</title>
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9f5db;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #2E8B57;
+        }
+        p {
+            max-width: 600px;
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+            color: #2E8B57;
+            border: 1px solid #2E8B57;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #2E8B57;
+            color: #fff;
+        }
+		ul {
+			list-style-type: none;
+			margin: 0;
+    	    padding: 0;
+		    }
+
+		li {
+			display: inline;
+			}
+	</style>
+</head>
+	<body>
+    <!-- navbar that should appear on every page -->
+		<ul>
+		<li><a href="/">Home</a></li>
+		<li><a href="{%url 'variable' %}">Variables</a></li>
+		<li><a href="{%url 'contacts' %}">Contact</a></li>
+		<li><a href="{%url 'loopexample' %}">Loop Example</a></li>
+		</ul>
+
+    <!-- placeholder for content to be filled in by subsequent views -->
+		{% block content %}
+<!-- Content provided by other templates will be filled in here -->
+    {% endblock %}
+	</body>
+</html>
