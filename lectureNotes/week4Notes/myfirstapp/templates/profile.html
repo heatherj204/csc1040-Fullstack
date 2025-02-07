@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    About {{name}}
+{% endblock %}
+
+{% block content %}
+        <h1>About {{name}}</h1>
+        {% if name == 'michael' %}
+            <p>Secret message for Michaels</p>
+        {% elif name == 'john' %}
+            <p>Welcome John</p>
+        {% else %}
+            <p>Howdy</p>
+        {% endif %}
+        <p>{{name}} is really cool they are {{age}} years old. They live in {{area}}</p>
+{% endblock %}

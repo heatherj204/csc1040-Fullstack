@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    All Books
+{% endblock %}
+        
+{% block content %}
+            <h1>{{book.title}}</h1>
+            <p>Year: {{book.year}} - Author {{book.author.name}}</p>
+
+{% endblock %}
