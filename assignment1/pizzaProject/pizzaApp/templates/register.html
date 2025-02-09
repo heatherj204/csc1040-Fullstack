@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Pizza Party Register
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the register</h1>
+    <!-- <p>Please sign in to order and create your pizza</p> -->
+     <form method="POST" autocomplete="off">
+
+        {% csrf_token %}
+
+        {{registerform.as_p}}
+
+        <input type="submit" value="Register"/>
+
+     </form>
+{% endblock %}
