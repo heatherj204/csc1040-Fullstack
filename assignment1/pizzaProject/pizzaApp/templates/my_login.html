@@ -5,6 +5,14 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome to the login page</h1>
-    <!-- <p>Please sign in to order and create your pizza</p> -->
+    <h1>Please sign in to order and create your pizza</h1>
+    <form method="POST" autocomplete="off">
+
+        {% csrf_token %}
+
+        {{loginform.as_p}}
+
+        <input type="submit" value="Login"/>
+
+     </form>
 {% endblock %}
