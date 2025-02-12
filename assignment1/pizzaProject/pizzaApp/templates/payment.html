@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Pizza Party Pay Now
+{% endblock %}
+
+{% block content %}
+<h1>Payment information</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <!-- Card for the payment form -->
+    <div class="d-flex justify-content-center align-items-center full-height">
+        <div class="card border-lite" style="min-width: 70rem; margin-top: 2rem;">
+            <h2>Payment Details</h2>
+            {{ paymentform|crispy }}
+            <br>
+            <div class="d-flex justify-content-center align-items-center full-height">
+                <p><input type="submit" class="btn btn-success" value="Order Pizza"/></p>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

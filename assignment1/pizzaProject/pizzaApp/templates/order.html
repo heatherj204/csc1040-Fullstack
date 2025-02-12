@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Pizza Party Order Now
+{% endblock %}
+
+{% block content %}
+<h1> Welcome {{user.username}} wanna order some pizza?</h1>
+<h2>Order Your Pizza</h2>
+
+
+<form method="post">
+    {% csrf_token %}
+    <!-- Card for the order form -->
+    <div class="d-flex justify-content-center align-items-center full-height">
+        <div class="card border-lite" style="min-width: 70rem; margin-top: 2rem;">
+            <h2>Pizza Order</h2>
+            {{ orderform|crispy }}  <!-- Displays form fields nicely -->
+        </div>
+    </div>
+    <br>
+    <div class="d-flex justify-content-center align-items-center full-height">
+        <p><input type="submit" class="btn btn-success" value="Continue to Payment"/></p>
+    </div>
+</form>
+
+{% endblock %}

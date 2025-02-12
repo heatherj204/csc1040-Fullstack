@@ -1,18 +1,35 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}
-    Pizza Party Home
+    Pizza Party Sign In
 {% endblock %}
 
 {% block content %}
-    <h1>Please sign in to order and create your pizza</h1>
-    <form method="POST" autocomplete="off">
+    <div class="d-flex justify-content-center align-items-center full-height">
+        <div class="card border-lite" style="min-width: 20rem; margin-top: 2rem;">
+            <div class="card-body">
+                <h4 class="card-title">Sign in to order!</h4>
+                    <form method="POST" autocomplete="off">
+
+                        {% csrf_token %}
+                        {{loginform|crispy}}
+                        <br>
+                        <!-- <button type="button" class="btn btn-success">Login</button> -->
+                        <p><input type="submit" class="btn btn-success" value="Login"/></p>
+                        <p>Dont have an account? Create one <a href="{% url 'register' %}">here</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!-- <form method="POST" autocomplete="off">
 
         {% csrf_token %}
 
-        {{loginform.as_p}}
+        {{loginform|crispy}}
 
-        <input type="submit" value="Login"/>
+        <p><input type="submit" value="Login"/></p>
 
-     </form>
+
+    </form> -->
 {% endblock %}

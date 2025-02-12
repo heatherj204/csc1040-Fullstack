@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome to the world of pizza</h1>
-    <p>Please sign in to order and create your pizza</p>
-{% endblock %}
+    <div class="d-flex justify-content-center align-items-center full-height">
+        <div class="card border-lite" style="min-width: 30rem; margin-top: 2rem;">
+            <div class="card-body">
+                <h4 class="card-title">Welcome</h4>
+                <p>Please <a href="{% url 'my-login' %}">log in</a> or <a href="{% url 'register' %}">sign up</a> to order some amazing pizza!!</p>
+            </div>
+        </div>
+    {% endblock %}

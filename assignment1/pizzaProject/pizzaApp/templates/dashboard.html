@@ -1,11 +1,56 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Pizza Party Home
+    Pizza Party Orders
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome to the dashboard</h1>
-    <!-- <p>Please sign in to order and create your pizza</p> -->
-     <a href="{% url 'user-logout' %}">Log Out Now</a>
-{% endblock %}
+    <h1>Hello {{user.username}}</h1>
+
+    {% if orders %}
+    <div class="d-flex justify-content-center align-items-center full-height">
+    <table class="table table-striped" style="max-width:  50rem;">
+        <thead>
+            <tr>
+                <th scope="col">Order No.</th>
+                <th scope="col">User</th>
+                <th scope="col">Date</th>
+                <th scope="col">Size</th>
+                <th scope="col">Base</th>
+                <th scope="col">Sauce</th>
+                <th scope="col">Cheese</th>
+                <th scope="col">Topping(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <th scope="row">{{ order.order.id }}</th>
+                    <td>{{ order.person.username }}</td>
+                    <td>{{ order.order.time_ordered|date:"Y-m-d" }}</td>
+                    <td>{{ order.size.name }}</td>
+                    <td>{{ order.base.name }}</td>
+                    <td>{{  order.sauce.name  }}</td>
+                    <td>{{  order.cheese.name  }}</td>
+                    <td>{% for topping in order.toppings.all %}
+                            {{ topping.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+    </div>
+        {% else %}
+            <div class="d-flex justify-content-center align-items-center full-height">
+                <div class="card text- center" style="min-width: 30rem; margin-bottom: 2rem;">
+                    <div class="card-body">
+                        <h4 class="card-title">No previous orders!</h4>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    <div class="d-flex justify-content-center align-items-center full-height">
+        <a class="btn btn-danger" type="button" href="{% url 'order' %}">Place Order</a>
+    </div>
+    {% endblock %}
