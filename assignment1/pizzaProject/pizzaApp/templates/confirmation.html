@@ -5,5 +5,33 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="d-flex justify-content-center align-items-center full-height">
+    <table class="table table-striped" style="max-width:  50rem;">
+        <thead>
+            <tr>
+                <th scope="col">Order No.</th>
+                <th scope="col">User</th>
+                <th scope="col">Date</th>
+                <th scope="col">Size</th>
+                <th scope="col">Base</th>
+                <th scope="col">Sauce</th>
+                <th scope="col">Cheese</th>
+                <th scope="col">Topping(s)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{ order.id }}</th>
+                <td>{{ order.person.username }}</td>
+                <td>{{ order.order.time_ordered|date:"d-m-y" }}</td>
+                <td>{{ order.size.name }}</td>
+                <td>{{ order.base.name }}</td>
+                <td>{{  order.sauce.name  }}</td>
+                <td>{{  order.cheese.name  }}</td>
+                <td>{% for topping in order.toppings.all %}
+                        {{ topping.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}</td>
+            </tr>
+            </tbody>
+    </table>
 {% endblock %}

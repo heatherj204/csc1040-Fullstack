@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Hello {{user.username}}</h1>
+    <h1>Hello {{user.username|capfirst}} your past orders are below:</h1>
 
     {% if orders %}
     <div class="d-flex justify-content-center align-items-center full-height">
@@ -14,7 +14,8 @@
             <tr>
                 <th scope="col">Order No.</th>
                 <th scope="col">User</th>
-                <th scope="col">Date</th>
+                <th scope="col">Date Ordered</th>
+                <th scope="col">Delvery Address</th>
                 <th scope="col">Size</th>
                 <th scope="col">Base</th>
                 <th scope="col">Sauce</th>
@@ -25,9 +26,15 @@
         <tbody>
             {% for order in orders %}
                 <tr>
-                    <th scope="row">{{ order.order.id }}</th>
+                    <th scope="row">{{ order.id }}</th>
                     <td>{{ order.person.username }}</td>
-                    <td>{{ order.order.time_ordered|date:"Y-m-d" }}</td>
+                    <td>{{ order.time_ordered|date:"d-m-y" }}</td>
+                    <td>{{ order.payment.address1 }}<br>
+                        {{ order.payment.address2 }}
+                        {% if order.payment.address3 %}<br>{{  order.payment.address3  }}{% endif %}<br>
+                        {{ order.payment.city}}, {{  order.payment.county }}<br>
+                        {{ order.payment.country }}
+                    </td>
                     <td>{{ order.size.name }}</td>
                     <td>{{ order.base.name }}</td>
                     <td>{{  order.sauce.name  }}</td>

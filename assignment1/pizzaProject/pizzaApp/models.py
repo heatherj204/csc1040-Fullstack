@@ -38,25 +38,20 @@ class Topping(models.Model):
     def __str__(self):
         return self.name
 
-class Order(models.Model):
-    time_ordered = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return f"Order {self.id} - {self.time_ordered}"
-
 class OrderDetails(models.Model):
     person = models.ForeignKey(User, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     sauce = models.ForeignKey(Sauce, on_delete=models.CASCADE)
     cheese = models.ForeignKey(Cheese, on_delete=models.CASCADE)
     toppings = models.ManyToManyField(Topping)
+    time_ordered = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f"OrderDetails for Order {self.order.id}"
 
 # Payment Information
 class Payment(models.Model):
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    order = models.OneToOneField(OrderDetails, on_delete=models.CASCADE, related_name='payment')
     name = models.CharField(max_length=200)
     address1 = models.CharField(max_length=200)
     address2 = models.CharField(max_length=200)
