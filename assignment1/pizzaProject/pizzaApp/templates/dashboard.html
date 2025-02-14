@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Pizza Party Orders
+    Pizza World | Orders
 {% endblock %}
 
 {% block content %}
@@ -9,13 +9,13 @@
 
     {% if orders %}
     <div class="d-flex justify-content-center align-items-center full-height">
-    <table class="table table-striped" style="max-width:  50rem;">
+    <table class="table table-striped" style="max-width:  70rem;">
         <thead>
             <tr>
                 <th scope="col">Order No.</th>
                 <th scope="col">User</th>
                 <th scope="col">Date Ordered</th>
-                <th scope="col">Delvery Address</th>
+                <th scope="col">Delivery Address</th>
                 <th scope="col">Size</th>
                 <th scope="col">Base</th>
                 <th scope="col">Sauce</th>
@@ -27,9 +27,9 @@
             {% for order in orders %}
                 <tr>
                     <th scope="row">{{ order.id }}</th>
-                    <td>{{ order.person.username }}</td>
+                    <td>{{ order.person.username|capfirst }}</td>
                     <td>{{ order.time_ordered|date:"d-m-y" }}</td>
-                    <td>{{ order.payment.address1 }}<br>
+                    <td style="min-width: 13rem;">{{ order.payment.address1 }}<br>
                         {{ order.payment.address2 }}
                         {% if order.payment.address3 %}<br>{{  order.payment.address3  }}{% endif %}<br>
                         {{ order.payment.city}}, {{  order.payment.county }}<br>
@@ -39,7 +39,7 @@
                     <td>{{ order.base.name }}</td>
                     <td>{{  order.sauce.name  }}</td>
                     <td>{{  order.cheese.name  }}</td>
-                    <td>{% for topping in order.toppings.all %}
+                    <td style="max-width: 13rem;">{% for topping in order.toppings.all %}
                             {{ topping.name }}{% if not forloop.last %}, {% endif %}
                         {% endfor %}</td>
                 </tr>

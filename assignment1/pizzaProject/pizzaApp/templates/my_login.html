@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Pizza Party Sign In
+    Pizza World | Sign In
 {% endblock %}
 
 {% block content %}
     <div class="d-flex justify-content-center align-items-center full-height">
-        <div class="card border-lite" style="min-width: 20rem; margin-top: 2rem;">
+        <div class="card border-lite" style="min-width: 20rem; margin-top: 2rem; background-color: #93B5C6;">
             <div class="card-body">
                 <h4 class="card-title">Sign in to order!</h4>
                     <form method="POST" autocomplete="off">
@@ -16,7 +16,7 @@
                         {{loginform|crispy}}
                         <br>
                         <!-- <button type="button" class="btn btn-success">Login</button> -->
-                        <p><input type="submit" class="btn btn-success" value="Login"/></p>
+                        <p><input type="submit" class="btn btn-success" value="Login" style="background-color: #00916E;"/></p>
                         <p>Dont have an account? Create one <a href="{% url 'register' %}">here</a></p>
                     </form>
                 </div>

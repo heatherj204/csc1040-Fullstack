@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Pizza Party Orders
+    Pizza World | Confirmation
 {% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-center align-items-center full-height">
-    <table class="table table-striped" style="max-width:  50rem;">
+    <table class="table table-striped" style="max-width:  70rem;">
         <thead>
             <tr>
                 <th scope="col">Order No.</th>
@@ -17,21 +17,34 @@
                 <th scope="col">Sauce</th>
                 <th scope="col">Cheese</th>
                 <th scope="col">Topping(s)</th>
+                <th scope="col">Delivery Address</th>
+                <th scope="col">Delivery Time</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th scope="row">{{ order.id }}</th>
-                <td>{{ order.person.username }}</td>
-                <td>{{ order.order.time_ordered|date:"d-m-y" }}</td>
+                <td>{{ order.person.username|capfirst }}</td>
+                <td>{{ order.time_ordered|date:"d-m-y H:i" }}</td>
                 <td>{{ order.size.name }}</td>
                 <td>{{ order.base.name }}</td>
-                <td>{{  order.sauce.name  }}</td>
-                <td>{{  order.cheese.name  }}</td>
+                <td>{{ order.sauce.name }}</td>
+                <td>{{ order.cheese.name }}</td>
                 <td>{% for topping in order.toppings.all %}
                         {{ topping.name }}{% if not forloop.last %}, {% endif %}
                     {% endfor %}</td>
+                <td style="min-width: 13rem;">{{ order.payment.address1 }}<br>
+                    {{ order.payment.address2 }}
+                    {% if order.payment.address3 %}<br>{{  order.payment.address3  }}{% endif %}<br>
+                    {{ order.payment.city}}, {{  order.payment.county }}<br>
+                    {{ order.payment.country }}
+                </td>
+                <td>{{ delivery|date:"H:i"}}</td>
             </tr>
             </tbody>
     </table>
+    </div>
+    <div class="d-flex justify-content-center align-items-center full-height">
+        <a class="btn btn-danger" type="button" href="{% url 'dashboard' %}">Home</a>
+    </div>
 {% endblock %}

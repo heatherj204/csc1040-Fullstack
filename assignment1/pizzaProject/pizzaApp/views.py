@@ -7,6 +7,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.utils.timezone import timedelta
 
 # Create you views here.
 def index(request):
@@ -22,6 +23,7 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.warning(request, "Account created, please log in now.")
             return redirect("my-login")
 
     context = {'registerform':form}
@@ -53,6 +55,8 @@ def dashboard(request):
     if (not request.user.is_authenticated):
         messages.warning(request, "You are not logged in!")
         return redirect("my-login")
+    
+    # Getting the table that has all the orders for the current user
     orders = OrderDetails.objects.filter(person_id=request.user.id).select_related('payment')
 
     context = {'orders': orders}
@@ -133,7 +137,11 @@ def confirmation(request):
         return redirect("dashboard")
 
     # Getting the order details from database
-    order = OrderDetails.objects.get(id=order_id)
+    #order = OrderDetails.objects.get(id=order_id).select_related('payment')
+    order = OrderDetails.objects.select_related('payment').get(id=order_id)
 
-    context = {'order': order}
+    # Creating a delivery time that is 30 mins after the order was created
+    delivery = order.time_ordered + timedelta(minutes=30)
+
+    context = {'order': order, 'delivery': delivery}
     return render(request, 'confirmation.html', context=context)
