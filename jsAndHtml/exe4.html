@@ -1,0 +1,36 @@
+<!--
+### Ex 4 - A form to add two numbers
+Create a file called `ex4.html` which contains a form with two text input tags and a submit button. When a user presses submit, the form should validate that
+-->
+
+<form id="nameForm">
+    <label for="nu1">Number 1:</label><br>
+    <input type="text" id="num1" name="num1"><br>
+    <label for="nu2">Number 2:</label><br>
+    <input type="text" id="num2" name="num2"><br>
+    <input type="submit" value="submit" id="submitbutton">
+</form>
+<p id="total">Total: </p>
+<script>
+    document.getElementById('submitbutton').addEventListener('click', function(ev) {
+        ev.preventDefault();
+        let n1 = document.getElementById('num1').value;
+        let n2 = document.getElementById('num2').value;
+        if (n1 == ''|| n2 == '') {
+            console.log('Something aint right');
+        }
+        if (isNaN(n1)) {
+            console.log('number 1 is not a number' + n1);
+        } else if(isNaN(n2)) {
+            console.log('number 2 is not a number' + n2);
+        }
+        else {
+            // let x = n1 + n2;
+            let n = parseInt(n1);
+            let y = parseInt(n2);
+            let z = n + y;
+            console.log(z);
+            document.getElementById("total").innerText= "Total: " + z;
+        }
+    })
+</script>

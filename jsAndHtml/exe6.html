@@ -1,0 +1,14 @@
+<button onclick="clickFun()" id="button">Click Me!</button><br>
+<img id="image" src="https://images.dog.ceo/breeds/chihuahua/n02085620_5713.jpg">
+
+<script>
+    function clickFun(data){
+        fetch("https://dog.ceo/api/breeds/image/random") // link to get some json data
+        .then(response => response.json()) // extract json data from the response
+        .then(data=>{ // data is either a json object or a list of json objects
+            // code to handle the data returned goes here
+        console.log(data);
+        document.getElementById("image").src = data.message;
+        })
+    }
+</script>

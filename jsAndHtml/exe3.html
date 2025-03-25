@@ -1,0 +1,15 @@
+<p id="helloTag">Hello</p>
+
+<form id="nameForm">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <input type="submit" value="submit" id="submitbutton">
+</form>
+
+<script>
+    document.getElementById('submitbutton').addEventListener('click', function(ev){
+        ev.preventDefault();
+        let user = document.getElementById('name').value;
+        document.getElementById('helloTag').innerText = 'Hello ' + user;
+    })
+</script>

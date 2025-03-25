@@ -1,0 +1,18 @@
+<h1 id="Pname"></h1>
+<h3 id="Pdiameter"></h3>
+<h3 id="Pclimate"></h3>
+<h3 id="Pterrain"></h3>
+<h3 id="Ppopulation"></h3>
+<script>
+    fetch("https://swapi.dev/api/planets/1") // link to get some json data
+    .then(response => response.json()) // extract json data from the response
+    .then(data=>{ // data is either a json object or a list of json objects
+        // code to handle the data returned goes here
+    console.log(data);
+    document.getElementById('Pname').innerText = "Planet name: " + data.name;
+    document.getElementById('Pdiameter').innerText = "Planet diameter: " + data.diameter;
+    document.getElementById('Pclimate').innerText = "Planet climate: " + data.climate;
+    document.getElementById('Pterrain').innerText = "Planet terrain: " + data.terrain;
+    document.getElementById('Ppopulation').innerText = "Planet population: " + data.population;
+    })
+</script>
