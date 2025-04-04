@@ -10,6 +10,8 @@ import Paper from '@mui/material/Paper';
 import { Box } from '@mui/material';
 import OpenInNewTwoToneIcon from '@mui/icons-material/OpenInNewTwoTone';
 import { Link } from 'react-router';
+// import StudentList from './StudentList';
+import StudentList from '../components/StudentList';
 
 export default function Cohort() {
     const { cohortID } = useParams();
@@ -66,38 +68,9 @@ export default function Cohort() {
                     </TableBody>
                 </Table>
                 </TableContainer>
-                <Box sx={{ padding: 2 }}>
-                <TableContainer component={Paper}>
-                    <Table sx={{ position: "center", minWidth: 750 }} aria-label="simple table">
-                        <TableHead>
-                        <TableRow>
-                            <TableCell align="center">First Name</TableCell>
-                            <TableCell align="center">Last Name</TableCell>
-                            <TableCell align="center">Student ID</TableCell>
-                            <TableCell align="center">View Student</TableCell>
-                        </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {students
-                            .filter(
-                            (student) =>
-                                cohortID === student.cohort.replace(/\/$/, '').split('/').pop()
-                            )
-                            .map((student) => (
-                            <TableRow
-                                key={student.id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell align="center">{student.first_name}</TableCell>
-                                <TableCell align="center">{student.last_name}</TableCell>
-                                <TableCell align="center">{student.student_id}</TableCell>
-                                <TableCell align="center"><Link><OpenInNewTwoToneIcon/></Link></TableCell>
-                            </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                </Box>
+                <>
+                <StudentList cohortID={cohortID}/>
+                </>
             </Box>
         </Box>
     );

@@ -44,7 +44,7 @@ export default function CohortList({degreeID}) {
                         >
                         <TableCell align="center">{details.id}</TableCell>
                         <TableCell align="center">{details.year}</TableCell>
-                        <TableCell align="center"><Link to={{pathname: `/cohort/${details.id}`}} style={{textDecoration: 'none'}}><OpenInNewTwoToneIcon/></Link></TableCell>
+                        <TableCell align="center"><Link to={{pathname: `/cohort/${details.id}`}} style={{textDecoration: 'none'}}><OpenInNewTwoToneIcon color='secondary'/></Link></TableCell>
                         </TableRow>
                     ))}
                     </TableBody>

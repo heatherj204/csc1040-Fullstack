@@ -34,8 +34,9 @@ function getname(name_link) {
 
         const l = element.split('/');
         const name = l[l.length - 2]
-        list.push(name + " ")
+        list.push(name)
     }
+    console.log(list);
     return (
         list
     )
@@ -69,14 +70,16 @@ function getname(name_link) {
                                 </>
                             ))}</TableCell>
                         <TableCell align="center">{details.ca_split}</TableCell>
-                        <TableCell align='center'>
-                        <Button sx={{margin: 2}}><Link to={{pathname: `/student/${[getname(details.delivered_to)]}`}} style={{textDecoration: 'none'}}>View students taking {id}</Link></Button>
-                        </TableCell>
                         </TableRow>
                     ))}
                     </TableBody>
                 </Table>
                 </TableContainer>
+                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                        <Box>
+                        <Button color="secondary" variant='contained' sx={{margin: 2}}><Link to={{pathname: `/module/student/${id}`}} style={{textDecoration: 'none', color: 'white'}}>View students taking {id}</Link></Button>
+                        </Box>
+                    </Box>
             </Box>
         </Box>
     );

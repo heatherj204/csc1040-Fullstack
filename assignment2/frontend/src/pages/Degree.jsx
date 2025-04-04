@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router'
-import CohortList from './CohortList';
+import CohortList from '../components/CohortList';
 
 export default function Degree() {
     const { degree } = useParams();

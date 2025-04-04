@@ -6,13 +6,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CohortList from './components/CohortList';
 import DegreeList from './components/DegreeList';
-import Cohort from './components/Cohort';
-import Degree from './components/Degree';
+import Cohort from './pages/Cohort';
+import Degree from './pages/Degree';
 import Nav from './components/Base';
 import StudentList from './components/StudentList';
 import ModList from './components/ModList';
-import Module from './components/Module';
+import Module from './pages/Module';
 import SingleMod from './components/SingleMod';
+import ModuleStudent from './pages/ModuleStudent';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -25,7 +26,8 @@ root.render(
       <Route path='/cohort/:cohortID' element={<Cohort />} />
       <Route path='/degree' element={<DegreeList/>} />
       <Route path='/degree/:degree' element={<Degree />} />
-      <Route path='/student' element={<StudentList />} />
+      <Route path='/student/' element={<StudentList />} />
+      <Route path='module/student/:code' element={<ModuleStudent />} />
       <Route path='/module' element={<ModList />} />
       <Route path='/cohort/module/:code' element={<Module />} />
       <Route path='/module/:id' element={<SingleMod />} />
