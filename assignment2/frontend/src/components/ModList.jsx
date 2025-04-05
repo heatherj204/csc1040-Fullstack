@@ -10,7 +10,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { Box, Button } from '@mui/material';
 import { Link } from 'react-router';
 
-export default function ModList({ code, id }) {
+export default function ModList({ code }) {
     console.log(code);
     const [module, setModule] = useState([]);
     const [page, setPage] = useState(0); // Current page index
@@ -85,7 +85,7 @@ export default function ModList({ code, id }) {
                                     <TableRow key={details.code} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell align="center">
                                             <Button>
-                                                <Link to={`/module/${details.code}`} style={{ textDecoration: 'none', color: 'purple' }}>
+                                                <Link to={{pathname:`/module/${details.code}`}} style={{ textDecoration: 'none', color: 'purple' }}>
                                                     {details.code}
                                                 </Link>
                                             </Button>
@@ -94,7 +94,7 @@ export default function ModList({ code, id }) {
                                         <TableCell align="center">
                                             {getname(details.delivered_to).map((n, index) => (
                                                 <Button key={index}>
-                                                    <Link to={`/cohort/${n.trim()}`} style={{ textDecoration: 'none', color: 'purple' }}>
+                                                    <Link to={{pathname:`/cohort/${n.trim()}`}} style={{ textDecoration: 'none', color: 'purple' }}>
                                                         {n}
                                                     </Link>
                                                 </Button>

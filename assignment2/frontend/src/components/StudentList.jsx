@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, TablePagination } from '@mui/material';
 
-export default function StudentList({ filteredStudents, cohortID }) {
+export default function StudentList({ filteredStudents, cohortID, sid }) {
     const [students, setStudents] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -19,9 +19,10 @@ export default function StudentList({ filteredStudents, cohortID }) {
         }
     }, [filteredStudents]);
 
+    const url = !sid ? 'http://127.0.0.1:8000/api/student/'+cohortID : 'http://127.0.0.1:8000/api/student/'+sid;
     useEffect(() => {
         if (filteredStudents) return;
-        fetch('http://127.0.0.1:8000/api/student/'+cohortID)
+        fetch(url)
             .then(response => response.json())
             .then(json => {
                 setStudents(json);
@@ -49,6 +50,7 @@ export default function StudentList({ filteredStudents, cohortID }) {
         <Box sx={{ display: "flex", justifyContent: "center", padding: 1 }}>
             <Box>
                 <TableContainer component={Paper}>
+                    {!sid ?
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
@@ -57,7 +59,7 @@ export default function StudentList({ filteredStudents, cohortID }) {
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
+                    />: null}
                     <Table sx={{ position: "center", minWidth: 700 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -69,7 +71,8 @@ export default function StudentList({ filteredStudents, cohortID }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {students.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((student) => (
+                            {/* If there is only one student (the SID is given) then there is no need for pagination */}
+                            {!sid ? students.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((student) => (
                                 <TableRow key={student.id}>
                                     <TableCell align="center">{student.first_name}</TableCell>
                                     <TableCell align="center">{student.last_name}</TableCell>
@@ -77,7 +80,15 @@ export default function StudentList({ filteredStudents, cohortID }) {
                                     <TableCell align="center">{student.student_id}</TableCell>
                                     <TableCell align="center">{getStudent(student.cohort)}</TableCell>
                                 </TableRow>
-                            ))}
+                            )) :
+                                <TableRow key={students.id}>
+                                    <TableCell align="center">{students.first_name}</TableCell>
+                                    <TableCell align="center">{students.last_name}</TableCell>
+                                    <TableCell align="center">{students.email}</TableCell>
+                                    <TableCell align="center">{students.student_id}</TableCell>
+                                    <TableCell align="center">{getStudent(students.cohort)}</TableCell>
+                                </TableRow>
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>

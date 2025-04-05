@@ -42,12 +42,6 @@ export default function Cohort() {
             .catch(error => console.error(error));
     }, [cohortID]);
 
-    const handleChangePage = (event, newPage) => setPage(newPage);
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
     const handleStudentChangePage = (event, newPage) => setStudentPage(newPage);
     const handleStudentChangeRowsPerPage = (event) => {
         setStudentRowsPerPage(parseInt(event.target.value, 10));
@@ -75,7 +69,7 @@ export default function Cohort() {
                                     <TableCell align="center">{details.name}</TableCell>
                                     <TableCell align="center">
                                         <Link to={{ pathname: `/cohort/module/${details.id}` }} style={{ textDecoration: 'none' }}>
-                                            <OpenInNewTwoToneIcon />
+                                            <OpenInNewTwoToneIcon color='secondary'/>
                                         </Link>
                                     </TableCell>
                                 </TableRow>
@@ -113,7 +107,7 @@ export default function Cohort() {
                                             <TableCell align="center">{student.last_name}</TableCell>
                                             <TableCell align="center">{student.student_id}</TableCell>
                                             <TableCell align="center">
-                                                <Link><OpenInNewTwoToneIcon color='secondary' /></Link>
+                                                <Link to={{ pathname: `/student/${student.student_id}` }} style={{ textDecoration: 'none' }}><OpenInNewTwoToneIcon color='secondary' /></Link>
                                             </TableCell>
                                         </TableRow>
                                     ))}
