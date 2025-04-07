@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -16,6 +17,16 @@ const pages = [
 
 function Nav() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        if (location.state?.error) {
+            setErrorMessage(location.state.error);
+        }
+    }, [location]);
+
+
 
     return (
         <AppBar position="static" color='secondary'>
@@ -28,23 +39,23 @@ function Nav() {
                 component="a"
                 href="/"
                 sx={{
-                mr: 2,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
+                    mr: 2,
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    letterSpacing: '.3rem',
+                    color: 'inherit',
+                    textDecoration: 'none',
                 }}
-            >
+                >
                 UNI API
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
                 {pages.map((page) => (
                 <Button
-                    key={page.name}
-                    onClick={() => navigate(page.path)}
-                    sx={{ my: 2, color: 'white' }}
+                key={page.name}
+                onClick={() => navigate(page.path)}
+                sx={{ my: 2, color: 'white' }}
                 >
                     {page.name}
                 </Button>
@@ -52,6 +63,15 @@ function Nav() {
             </Box>
             </Toolbar>
         </Container>
+            <div>
+                {errorMessage && (
+                    <div style={{ backgroundColor: '#ffe0e0', padding: '1em', margin: '1em 0', borderRadius: '5px', color: '#b00020' }}>
+                        {errorMessage}
+                    </div>
+                )}
+                {/* Your usual home content */}
+
+            </div>
         </AppBar>
     );
 }

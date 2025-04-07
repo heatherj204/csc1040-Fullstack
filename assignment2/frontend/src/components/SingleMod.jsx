@@ -12,17 +12,25 @@ import { Link, useParams } from 'react-router';
 export default function SingleMod() {
     const { id } = useParams();
     const [module, setmodule] = useState([]);
+    const [error, setError] = useState(null)
 
     const url = 'http://127.0.0.1:8000/api/module/'+id;
 
     useEffect(() => {
         fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw Error(`Something went wrong, status: ${response.status}.`)
+            }
+            return response.json()
+        })
         .then(json => {
             setmodule([json])
             console.log(json)
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+            setError(error.message);
+        });
     }, []);
 
 function getname(name_link) {
@@ -44,42 +52,42 @@ function getname(name_link) {
     return (
         <Box sx={{ display: "flex", justifyContent: "center", padding: 5 }}>
             <Box>
-                <TableContainer component={Paper}>
-                <Table sx={{ position: "center", minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                    <TableRow>
-                        <TableCell align="center">Code</TableCell>
-                        <TableCell align="center">Name</TableCell>
-                        <TableCell align="center">Delivered To</TableCell>
-                        <TableCell align="center">CA %</TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {module?.map((details) => (
-                        <TableRow
-                        key={details.code}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                        >
-                        <TableCell align="center">{details.code}</TableCell>
-                        <TableCell align="center">{details.full_name}</TableCell>
-                        <TableCell align="center">
-                            { getname(details.delivered_to).map((n, index) => (
-                                <>
-                                {index !== 0 ? (" "): null}
-                                <Button><Link to={{pathname: `/cohort/${n}`}} style={{textDecoration: 'none'}}>{n}</Link></Button>
-                                </>
-                            ))}</TableCell>
-                        <TableCell align="center">{details.ca_split}</TableCell>
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
-                </TableContainer>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                        <Box>
-                        <Button color="secondary" variant='contained' sx={{margin: 2}}><Link to={{pathname: `/module/student/${id}`}} style={{textDecoration: 'none', color: 'white'}}>View students taking {id}</Link></Button>
-                        </Box>
-                    </Box>
+            { error ? <div>{ error }</div> :
+                <><TableContainer component={Paper}>
+                        <Table sx={{ position: "center", minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center">Code</TableCell>
+                                    <TableCell align="center">Name</TableCell>
+                                    <TableCell align="center">Delivered To</TableCell>
+                                    <TableCell align="center">CA %</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {module?.map((details) => (
+                                    <TableRow
+                                        key={details.code}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell align="center">{details.code}</TableCell>
+                                        <TableCell align="center">{details.full_name}</TableCell>
+                                        <TableCell align="center">
+                                            {getname(details.delivered_to).map((n, index) => (
+                                                <>
+                                                    {index !== 0 ? (" ") : null}
+                                                    <Button><Link to={{ pathname: `/cohort/${n}` }} style={{ textDecoration: 'none' }}>{n}</Link></Button>
+                                                </>
+                                            ))}</TableCell>
+                                        <TableCell align="center">{details.ca_split}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer><Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Box>
+                                <Button color="secondary" variant='contained' sx={{ margin: 2 }}><Link to={{ pathname: `/module/student/${id}` }} style={{ textDecoration: 'none', color: 'white' }}>View students taking {id}</Link></Button>
+                            </Box>
+                        </Box></>}
             </Box>
         </Box>
     );

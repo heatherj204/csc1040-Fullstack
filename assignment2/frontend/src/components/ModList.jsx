@@ -15,17 +15,26 @@ export default function ModList({ code }) {
     const [module, setModule] = useState([]);
     const [page, setPage] = useState(0); // Current page index
     const [rowsPerPage, setRowsPerPage] = useState(10); // Rows per page
+    const [error, setError] = useState(null)
 
     const url = !code ? "http://localhost:8000/api/module/" : `http://127.0.0.1:8000/api/module/?delivered_to=${code}`;
 
     useEffect(() => {
         fetch(url)
-            .then(response => response.json())
-            .then(json => {
-                setModule(json);
-                console.log(json);
-            })
-            .catch(error => console.error(error));
+        .then(response => {
+            if (!response.ok) {
+                throw Error(`Something went wrong, status: ${response.status}.`)
+            }
+            return response.json()
+        })
+        .then(json => {
+            setModule(json);
+            console.log(json);
+        })
+        .catch(error => {
+            setError(error.message);
+        });
+
     }, []);
 
     function getname(name_link) {
@@ -58,54 +67,57 @@ export default function ModList({ code }) {
     return (
         <Box sx={{ display: "flex", justifyContent: "center", padding: 5 }}>
             <Box>
-                <TableContainer component={Paper}>
-                    {/* Pagination Component */}
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]} // Options for rows per page
-                        component="div"
-                        count={module.length} // Total number of rows
-                        rowsPerPage={rowsPerPage} // Rows per page state
-                        page={page} // Current page state
-                        onPageChange={handleChangePage} // Handle page change
-                        onRowsPerPageChange={handleChangeRowsPerPage} // Handle rows per page change
-                    />
-                    <Table sx={{ width: 650 }} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center">Code</TableCell>
-                                <TableCell align="center">Name</TableCell>
-                                <TableCell align="center">Delivered To</TableCell>
-                                <TableCell align="center">CA %</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {module
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // Pagination logic
-                                .map((details) => (
-                                    <TableRow key={details.code} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <TableCell align="center">
-                                            <Button>
-                                                <Link to={{pathname:`/module/${details.code}`}} style={{ textDecoration: 'none', color: 'purple' }}>
-                                                    {details.code}
-                                                </Link>
-                                            </Button>
-                                        </TableCell>
-                                        <TableCell align="center">{details.full_name}</TableCell>
-                                        <TableCell align="center">
-                                            {getname(details.delivered_to).map((n, index) => (
-                                                <Button key={index}>
-                                                    <Link to={{pathname:`/cohort/${n.trim()}`}} style={{ textDecoration: 'none', color: 'purple' }}>
-                                                        {n}
+            { error ? <div>{ error }</div> :
+                <><TableContainer component={Paper}>
+                        {/* Pagination Component */}
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25]} // Options for rows per page
+                            component="div"
+                            count={module.length} // Total number of rows
+                            rowsPerPage={rowsPerPage} // Rows per page state
+                            page={page} // Current page state
+                            onPageChange={handleChangePage} // Handle page change
+                            onRowsPerPageChange={handleChangeRowsPerPage} // Handle rows per page change
+                        />
+                        <Table sx={{ width: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center">Code</TableCell>
+                                    <TableCell align="center">Name</TableCell>
+                                    <TableCell align="center">Delivered To</TableCell>
+                                    <TableCell align="center">CA %</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {module
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // Pagination logic
+                                    .map((details) => (
+                                        <TableRow key={details.code} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <TableCell align="center">
+                                                <Button>
+                                                    <Link to={{ pathname: `/module/${details.code}` }} style={{ textDecoration: 'none', color: 'purple' }}>
+                                                        {details.code}
                                                     </Link>
                                                 </Button>
-                                            ))}
-                                        </TableCell>
-                                        <TableCell align="center">{details.ca_split}</TableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                                            </TableCell>
+                                            <TableCell align="center">{details.full_name}</TableCell>
+                                            <TableCell align="center">
+                                                {getname(details.delivered_to).map((n, index) => (
+                                                    <Button key={index}>
+                                                        <Link to={{ pathname: `/cohort/${n.trim()}` }} style={{ textDecoration: 'none', color: 'purple' }}>
+                                                            {n}
+                                                        </Link>
+                                                    </Button>
+                                                ))}
+                                            </TableCell>
+                                            <TableCell align="center">{details.ca_split}</TableCell>
+                                        </TableRow>
+                                    ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer><Box variant sx={{ display: 'flex', justifyContent: 'center', margin: 4 }}>
+                            <Button><Link to={`/module/newmodule`} style={{ textDecoration: 'none', color: 'purple' }}>Create New Degree</Link></Button>
+                        </Box></>}
 
             </Box>
         </Box>

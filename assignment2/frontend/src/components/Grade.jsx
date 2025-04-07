@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Card, CardContent, Typography, LinearProgress, Grid, Button} from '@mui/material';
+import { Box, Card, CardContent, Typography, LinearProgress, Grid} from '@mui/material';
 import { Link } from 'react-router';
 
 function GetName(link) {
@@ -10,19 +10,28 @@ function GetName(link) {
 
 export default function Grades({ id }) {
     const [grades, setGrades] = useState([]);
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/api/grade/?student=' + id)
-        .then((response) => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw Error(`Something went wrong, status: ${response.status}.`)
+            }
+            return response.json()
+        })
         .then((json) => {
             setGrades(json);
             console.log(json);
         })
-        .catch((error) => console.error('something is wrong here ' + error));
+        .catch(error => {
+            setError(error.message);
+      });
     }, [id]);
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, padding: 2 }}>
+        { error ? <div>{ error }</div> :
         <Grid container spacing={3} sx={{justifyContent: 'space-evenly'}}>
             {grades.map((details) => {
             const moduleName = GetName(details.module);
@@ -96,7 +105,7 @@ export default function Grades({ id }) {
                 </Card>
             );
             })}
-        </Grid>
+        </Grid>}
         </Box>
     );
 }

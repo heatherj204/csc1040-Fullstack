@@ -7,7 +7,10 @@ export default function Degree() {
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/api/degree/'+degree)
-        .catch(error => console.error(error));
+        .catch(error => {
+        console.error(error)
+        alert("Failed Fetch")
+      });
     });
     return (
             <CohortList degreeID={degree} />

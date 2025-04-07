@@ -12,6 +12,7 @@ export default function StudentList({ filteredStudents, cohortID, sid }) {
     const [students, setStudents] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         if (filteredStudents) {
@@ -23,12 +24,19 @@ export default function StudentList({ filteredStudents, cohortID, sid }) {
     useEffect(() => {
         if (filteredStudents) return;
         fetch(url)
-            .then(response => response.json())
-            .then(json => {
-                setStudents(json);
-                console.log(json);
-            })
-            .catch(error => console.error(error));
+        .then(response => {
+            if (!response.ok) {
+                throw Error(`Something went wrong, status: ${response.status}.`)
+            }
+            return response.json()
+        })
+        .then(json => {
+            setStudents(json);
+            console.log(json);
+        })
+        .catch(error => {
+            setError(error.message);
+        });
     }, []);
 
     function getStudent(cohort_link) {
@@ -49,6 +57,7 @@ export default function StudentList({ filteredStudents, cohortID, sid }) {
     return (
         <Box sx={{ display: "flex", justifyContent: "center", padding: 1 }}>
             <Box>
+            { error ? <div>{ error }</div> :
                 <TableContainer component={Paper}>
                     {!sid ?
                     <TablePagination
@@ -91,7 +100,7 @@ export default function StudentList({ filteredStudents, cohortID, sid }) {
                             }
                         </TableBody>
                     </Table>
-                </TableContainer>
+                </TableContainer>}
             </Box>
         </Box>
     );

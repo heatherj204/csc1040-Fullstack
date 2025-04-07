@@ -1,16 +1,8 @@
-// import React, { useState, useEffect, Link } from 'react';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
-// import Paper from '@mui/material/Paper';
-// import { Box } from '@mui/material';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import StudentList from '../components/StudentList';
 import Heading from '../components/Heading';
 import Grades from '../components/Grade';
+import { Box, Button } from '@mui/material';
 
 export default function StudentInfo(){
     const { id } = useParams()
@@ -18,6 +10,12 @@ export default function StudentInfo(){
     return (
         <>
         <Heading primary={'Information about student'} secondary={id}/>
+        <Box variant sx={{ display: 'flex', justifyContent: 'center', margin: 4 }}>
+            <Button><Link to={`/student/newstudent`} style={{ textDecoration: 'none', color: 'purple' }}>Create New Student</Link></Button>
+        </Box>
+        <Box variant sx={{ display: 'flex', justifyContent: 'center', margin: 4 }}>
+            <Button><Link to={`/student/newgrade`} style={{ textDecoration: 'none', color: 'purple' }}>Add grades</Link></Button>
+        </Box>
         <StudentList  sid={id}/>
         <Heading secondary={'Grades for modules taken'}/>
         <Grades id={id}/>
